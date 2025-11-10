@@ -2,6 +2,7 @@ from .mask import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(account_card: str) -> str:
+    """Функция, которая маскирует номер банковской карты или счета."""
     account = ""
     number = ""
     for symbol in account_card:
@@ -18,3 +19,8 @@ def mask_account_card(account_card: str) -> str:
     else:
         mask = get_mask_card_number(int(number))
         return f"{account_clean} {mask}"
+
+
+def get_date(data: str) -> str:
+    """Функция, которая преобразует дату из ISO формата в формат ДД.ММ.ГГГГ."""
+    return f"{data[8:10]}.{data[5:7]}.{data[0:4]}"
