@@ -1,4 +1,5 @@
 def filter_by_state(items: list[dict], state: str = "EXECUTED") -> list[dict]:
+    """Фильтрует операции по статусу. По умолчанию - выполненные."""
     result = []
     for item in items:
         if item.get("state") == state:
@@ -7,6 +8,7 @@ def filter_by_state(items: list[dict], state: str = "EXECUTED") -> list[dict]:
 
 
 def sort_by_date(items: list[dict], sort_order: bool = True) -> list[dict]:
+    """Сортирует операции по дате выполнения. По умолчанию - по убыванию."""
     return sorted(items, key=lambda x: x["date"], reverse=sort_order)
 
 
@@ -19,5 +21,5 @@ def sort_by_date(items: list[dict], sort_order: bool = True) -> list[dict]:
 #     ]
 #     new_state = "CANCELED"
 #     new_sort_order = False
-#     # print(filter_by_state(test_data, new_state))
+#     print(filter_by_state(test_data, new_state))
 #     print(sort_by_date(test_data, new_sort_order))
