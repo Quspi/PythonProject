@@ -6,6 +6,10 @@ def filter_by_state(items: list[dict], state: str = "EXECUTED") -> list[dict]:
     return result
 
 
+def sort_by_date(items: list[dict], sort_order: bool = True) -> list[dict]:
+    return sorted(items, key=lambda x: x["date"], reverse=sort_order)
+
+
 # if __name__ == "__main__":
 #     test_data = [
 #         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
@@ -14,4 +18,6 @@ def filter_by_state(items: list[dict], state: str = "EXECUTED") -> list[dict]:
 #         {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
 #     ]
 #     new_state = "CANCELED"
-#     print(filter_by_state(test_data, new_state))
+#     new_sort_order = False
+#     # print(filter_by_state(test_data, new_state))
+#     print(sort_by_date(test_data, new_sort_order))
