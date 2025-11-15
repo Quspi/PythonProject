@@ -1,6 +1,6 @@
 import pytest
 
-from src.widget import mask_account_card
+from src.widget import get_date, mask_account_card
 
 
 # Тестирование функции mask_account_card
@@ -85,3 +85,68 @@ def test_invalid_input_types(invalid_input, expected_error):
 )
 def test_special_formats(special_format, expected):
     assert mask_account_card(special_format) == expected
+
+
+# Тестирование функции get_date
+@pytest.mark.parametrize(
+    "date, expected",
+    [
+        ("2024-03-15", "15.03.2024"),
+        ("2023-12-31", "31.12.2023"),
+        ("2024-01-01", "01.01.2024"),
+        ("2000-02-29", "29.02.2000"),
+        ("1999-09-09", "09.09.1999"),
+    ],
+)
+def test_valid_dates(date, expected):
+    assert get_date(date) == expected
+
+
+@pytest.mark.parametrize(
+    "short_date",
+    [
+        "",
+        "2024-03",
+        "24-03-15",
+    ],
+)
+def test_short_strings(short_date):
+    with pytest.raises(ValueError):
+        get_date(short_date)
+
+
+@pytest.mark.parametrize(
+    "invalid_date",
+    [
+        "2024/03/15",
+        "2024.03.15",
+        "2024 03 15",
+    ],
+)
+def test_wrong_separators(invalid_date):
+    with pytest.raises(ValueError):
+        get_date(invalid_date)
+
+
+@pytest.mark.parametrize(
+    "input_date, expected",
+    [
+        ("2024-03-15T10:30:00", "15.03.2024"),
+        ("2024-03-15T10:30:45.123Z", "15.03.2024"),
+        ("2024-03-15 ", "15.03.2024"),
+        (" 2024-03-15", "15.03.2024"),
+    ],
+)
+def test_extended_formats(input_date, expected):
+    assert get_date(input_date) == expected
+
+
+@pytest.mark.parametrize(
+    "date, expected",
+    [
+        ("0001-01-01", "01.01.0001"),
+        ("9999-12-31", "31.12.9999"),
+    ],
+)
+def test_extreme_dates(date, expected):
+    assert get_date(date) == expected
