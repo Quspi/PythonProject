@@ -13,7 +13,7 @@ def mask_account_card(account_card: str) -> str:
 
     account_clean = account.strip()
 
-    if account_clean.lower() == "счет":
+    if "счет" in account_clean.lower():
         mask = get_mask_account(int(number))
         return f"{account_clean} {mask}"
     else:
