@@ -1,8 +1,9 @@
 import pytest
 
-from src.mask import get_mask_card_number
+from src.mask import get_mask_account, get_mask_card_number
 
 
+# Тестирование функции get_mask_card_number
 @pytest.mark.parametrize(
     "card_number, expected",
     [
@@ -44,3 +45,58 @@ def test_zero_mask_card_number():
     with pytest.raises(ValueError) as error:
         get_mask_card_number(0)
     assert str(error.value) == "Номер карты должен быть положительным числом"
+
+
+# Тестирование функции get_mask_account
+@pytest.mark.parametrize(
+    "account, expected",
+    [
+        (12345678901234567890, "**7890"),
+        (123456, "**3456"),
+        (9999, "**9999"),
+        (10000000000000000000, "**0000"),
+        (99999999999999999999, "**9999"),
+        (12121212121212121212121212, "**1212"),
+        (11111111111111111111, "**1111"),
+        (1234123412341234, "**1234"),
+    ],
+)
+def test_valid_mask_account(account, expected):
+    assert get_mask_account(account) == expected
+
+
+@pytest.mark.parametrize(
+    "account, expected_error",
+    [(1, ValueError), (12, ValueError), (123, ValueError), (0000, ValueError), (0, ValueError)],
+)
+def test_invalid_length_mask_account(account, expected_error):
+    with pytest.raises(expected_error) as error:
+        get_mask_account(account)
+    assert str(error.value) == "Счет должен содержать не менее 4 цифр"
+
+
+@pytest.mark.parametrize(
+    "account, expected_error",
+    [
+        ("", TypeError),
+        (None, TypeError),
+        ([], TypeError),
+        ({}, TypeError),
+        ((), TypeError),
+        (123.45, TypeError),
+        ("123124", TypeError),
+    ],
+)
+def test_wrong_type_mask_account(account, expected_error):
+    with pytest.raises(expected_error) as error:
+        get_mask_account(account)
+    assert str(error.value) == "Номер счета должен быть целым числом"
+
+
+@pytest.mark.parametrize(
+    "account, expected_error", [(-1234, ValueError), (-123, ValueError), (-1, ValueError), (-9999, ValueError)]
+)
+def test_negative_numbers_mask_account(account, expected_error):
+    with pytest.raises(expected_error) as error:
+        get_mask_account(account)
+    assert str(error.value) == "Номер счета не может быть отрицательным"
