@@ -17,5 +17,14 @@ def get_mask_card_number(card_number: int) -> str:
 def get_mask_account(account_number: int) -> str:
     """Функция, которая принимает на вход номер счета и возвращает
     замаскированный номер в формате **XXXX, где XXXX - это последние 4 цифры."""
+    if not isinstance(account_number, int):
+        raise TypeError("Номер счета должен быть целым числом")
+
+    if account_number < 0:
+        raise ValueError("Номер счета не может быть отрицательным")
+
     account_number_str = str(account_number)
+
+    if len(account_number_str) < 4:
+        raise ValueError("Счет должен содержать не менее 4 цифр")
     return "**" + account_number_str[-4:]
