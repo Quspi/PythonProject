@@ -42,3 +42,35 @@ def operations_additional_states():
         {"id": 3, "state": "FAILED", "date": "2019-05-12T21:27:25.241689"},
         {"id": 4, "state": "PROCESSING", "date": "2019-04-14T08:21:33.419441"},
     ]
+
+
+@pytest.fixture
+def sample_transactions():
+    return [
+        {"id": 1, "operationAmount": {"amount": "100.0", "currency": {"code": "USD", "name": "US Dollar"}}},
+        {"id": 2, "operationAmount": {"amount": "200.0", "currency": {"code": "EUR", "name": "Euro"}}},
+        {"id": 3, "operationAmount": {"amount": "300.0", "currency": {"code": "USD", "name": "US Dollar"}}},
+        {"id": 4, "operationAmount": {"amount": "400.0", "currency": {"code": "RUB", "name": "Russian Ruble"}}},
+    ]
+
+
+@pytest.fixture
+def empty_transactions():
+    return []
+
+
+@pytest.fixture
+def usd_only_transactions():
+    return [
+        {"id": 1, "operationAmount": {"amount": "100.0", "currency": {"code": "USD", "name": "US Dollar"}}},
+        {"id": 2, "operationAmount": {"amount": "200.0", "currency": {"code": "USD", "name": "US Dollar"}}},
+    ]
+
+
+@pytest.fixture
+def invalid_structure_transactions():
+    return [
+        {"id": 1},
+        {"id": 2, "operationAmount": {"amount": "100"}},
+        {"id": 3, "operationAmount": {"amount": "100", "currency": {}}},
+    ]
