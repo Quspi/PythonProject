@@ -74,3 +74,38 @@ def invalid_structure_transactions():
         {"id": 2, "operationAmount": {"amount": "100"}},
         {"id": 3, "operationAmount": {"amount": "100", "currency": {}}},
     ]
+
+
+@pytest.fixture
+def transactions_with_descriptions():
+    return [
+        {"description": "Payment", "operationAmount": {"currency": {"code": "USD"}}},
+        {"description": "Transfer", "operationAmount": {"currency": {"code": "EUR"}}},
+        {"description": "Withdrawal", "operationAmount": {"currency": {"code": "USD"}}},
+    ]
+
+
+@pytest.fixture
+def transactions_without_descriptions():
+    return [
+        {"operationAmount": {"currency": {"code": "USD"}}},
+        {"operationAmount": {"currency": {"code": "EUR"}}},
+        {"operationAmount": {"currency": {"code": "RUB"}}},
+    ]
+
+
+@pytest.fixture
+def transactions_mixed_descriptions():
+    return [
+        {"description": "Payment", "operationAmount": {"currency": {"code": "USD"}}},
+        {"operationAmount": {"currency": {"code": "EUR"}}},
+        {"description": "", "operationAmount": {"currency": {"code": "GBP"}}},
+        {"description": None, "operationAmount": {"currency": {"code": "JPY"}}},
+    ]
+
+
+@pytest.fixture
+def transactions_long_description():
+    return [
+        {"description": "A" * 1000, "operationAmount": {"currency": {"code": "USD"}}},
+    ]
