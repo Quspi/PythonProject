@@ -3,6 +3,7 @@ import os
 
 
 def load_transactions(file_path: str) -> list[dict]:
+    """Загружает транзакции из JSON файла."""
     if not os.path.exists(file_path):
         return []
 
