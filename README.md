@@ -34,6 +34,7 @@
 - Фильтрация операций по валюте
 - Генерация номеров банковских карт
 - Извлечение описаний транзакций
+- Логирование данных в консоль или файл
 
 ## Установка
 
@@ -50,6 +51,7 @@ poetry shell
 ```
 
 ## Использование
+### Функции
 ```
 from src.mask import get_mask_card_number, get_mask_account
 from src.processing import filter_by_state, sort_by_date
@@ -99,7 +101,36 @@ list(card_number_generator(1, 3))
 get_date("2024-03-14T10:30:00")
 # 14.03.2024
 ```
+### Декораторы
+```
+from src.decorators import log
 
+# Логирование в консоль
+@log()
+def add(a, b):
+    return a + b
+
+add(2, 3)
+# add ok: 5
+
+# Логирование в файл
+@log("operations.log")
+def process_data(data):
+    return len(data)
+
+process_data([1, 2, 3])
+# запись в файл logs/operations.log: "process_data ok: 3"
+
+# Логирование ошибок
+@log()
+def risky_operation(x):
+    if x < 0:
+        raise ValueError("Negative value not allowed")
+    return x * 2
+
+risky_operation(-5)
+# risky_operation ValueError: Negative value not allowed. Inputs: (-5,), {}
+```
 ## Разработка
 Проект находится на стадии активного обучения и развития. Кодовая база постоянно улучшается, добавляется новая функциональность и исправляются ошибки.
 
