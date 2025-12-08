@@ -109,3 +109,28 @@ def transactions_long_description():
     return [
         {"description": "A" * 1000, "operationAmount": {"currency": {"code": "USD"}}},
     ]
+
+
+@pytest.fixture
+def transaction_rub():
+    return {"operationAmount": {"amount": "31957.58", "currency": {"name": "руб.", "code": "RUB"}}}
+
+
+@pytest.fixture
+def transaction_usd():
+    return {"operationAmount": {"amount": "2.5", "currency": {"code": "USD"}}}
+
+
+@pytest.fixture
+def transaction_eur():
+    return {"operationAmount": {"amount": "1.0", "currency": {"code": "EUR"}}}
+
+
+@pytest.fixture
+def transaction_invalid_transaction_format():
+    return {"Amount": {"amount": "1.0", "currency": {"code": "EUR"}}}
+
+
+@pytest.fixture
+def transaction_gbp():
+    return {"operationAmount": {"amount": "1.0", "currency": {"code": "GBP"}}}
