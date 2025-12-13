@@ -1,7 +1,4 @@
 import logging
-import os
-
-os.makedirs("logs", exist_ok=True)
 
 logger = logging.getLogger("mask")
 logger.setLevel(logging.DEBUG)
