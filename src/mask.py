@@ -24,7 +24,7 @@ def get_mask_card_number(card_number: int) -> str:
         logger.error(f"Номер карты должен быть > 0, получен: {card_number}")
         raise ValueError("Номер карты должен быть положительным числом")
     if len(str(card_number)) != 16:
-        logger.error(f"Длинна номера должна быть == 16, получено: {len(str(card_number))}")
+        logger.error(f"Длина номера должна быть == 16, получено: {len(str(card_number))}")
         raise ValueError("Номер карты должен содержать 16 цифр")
 
     card_number_str = str(card_number)
@@ -50,7 +50,7 @@ def get_mask_account(account_number: int) -> str:
     account_number_str = str(account_number)
 
     if len(account_number_str) < 4:
-        logger.error(f"Длинна счета должна > 4, получено: {len(account_number_str)}")
+        logger.error(f"Длина счета должна > 4, получено: {len(account_number_str)}")
         raise ValueError("Счет должен содержать не менее 4 цифр")
 
     result = "**" + account_number_str[-4:]
