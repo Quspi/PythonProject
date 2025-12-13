@@ -40,13 +40,21 @@ def get_mask_account(account_number: int) -> str:
     """Функция, которая принимает на вход номер счета и возвращает
     замаскированный номер в формате **XXXX, где XXXX - это последние 4 цифры."""
     if not isinstance(account_number, int):
+        logger.error(f"Номер счета должен быть int, получен: {type(account_number).__name__}")
         raise TypeError("Номер счета должен быть целым числом")
 
     if account_number < 0:
+        logger.error(f"Номер счета должен быть > 0, получен: {account_number}")
         raise ValueError("Номер счета не может быть отрицательным")
 
     account_number_str = str(account_number)
 
     if len(account_number_str) < 4:
+        logger.error(f"Длинна счета должна > 4, получено: {len(account_number_str)}")
         raise ValueError("Счет должен содержать не менее 4 цифр")
-    return "**" + account_number_str[-4:]
+
+    result = "**" + account_number_str[-4:]
+
+    logger.info(f"Номер счета успешно замаскирован. Результат: {result}")
+
+    return result
