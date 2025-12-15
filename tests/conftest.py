@@ -140,3 +140,10 @@ def transaction_gbp():
 @pytest.fixture
 def sample_dataframe():
     return pd.DataFrame({"id": [1, 2], "amount": [100, 200], "currency": ["USD", "EUR"]})
+
+
+@pytest.fixture
+def missing_and_invalid_dataframe():
+    return pd.DataFrame(
+        {"amount": [100, None, "N/A", 400, ""], "currency": ["USD", "EUR", None, 123, "GBP"], "id": [1, 2, 3, 4, 5]}
+    )
