@@ -30,6 +30,7 @@
 - Pytest (тестирование)
 - Requests (HTTP-запросы)
 - python-dotenv (переменные окружения)
+- Pandas & openpyxl
 
 ## Функциональность
 
