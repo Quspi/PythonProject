@@ -1,3 +1,4 @@
+import pandas as pd
 import pytest
 
 
@@ -134,3 +135,8 @@ def transaction_invalid_transaction_format():
 @pytest.fixture
 def transaction_gbp():
     return {"operationAmount": {"amount": "1.0", "currency": {"code": "GBP"}}}
+
+
+@pytest.fixture
+def sample_dataframe():
+    return pd.DataFrame({"id": [1, 2], "amount": [100, 200], "currency": ["USD", "EUR"]})
