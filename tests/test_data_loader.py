@@ -87,6 +87,25 @@ def test_invalid_path_read_excel_transactions(read_excel_mock):
 
 
 @patch("pandas.read_excel")
+def test_read_excel_with_missing_values(read_excel_mock, missing_and_invalid_dataframe):
+    read_excel_mock.return_value = missing_and_invalid_dataframe
+    expected_result = [
+        {"amount": 100, "currency": "USD", "id": 1},
+        {"amount": None, "currency": "EUR", "id": 2},
+        {"amount": "N/A", "currency": None, "id": 3},
+        {"amount": 400, "currency": 123, "id": 4},
+        {"amount": "", "currency": "GBP", "id": 5},
+    ]
+    result = read_excel_transactions("file_with_invalid_data.xlsx", sheet_name=3)
+
+    assert result == expected_result
+    assert len(result) == 5
+    assert all(isinstance(item, dict) for item in result)
+    assert expected_result[2]["currency"] is None
+    read_excel_mock.assert_called_once_with("file_with_invalid_data.xlsx", sheet_name=3)
+
+
+@patch("pandas.read_excel")
 def test_empty_data_read_excel_transactions(read_excel_mock):
     read_excel_mock.return_value = pd.DataFrame()
     result = read_excel_transactions("empty_file.xlsx", sheet_name=10)
