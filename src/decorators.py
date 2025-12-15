@@ -1,6 +1,16 @@
+import logging
 from functools import wraps
 from os import makedirs
 from typing import Any, Callable, Optional
+
+logger = logging.getLogger("decorators")
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler("logs/decorators.log", "a", encoding="utf-8")
+formatter = logging.Formatter(
+    "%(asctime)s: %(name)s: %(funcName)s: %(levelname)s: %(message)s", datefmt="%Y.%m.%d %H:%M:%S"
+)
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 
 def log(filename: Optional[str] = None) -> Callable:
@@ -9,6 +19,7 @@ def log(filename: Optional[str] = None) -> Callable:
     def decorator(function: Callable) -> Callable:
         @wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
+            logger.debug(f"Вызов {function.__name__}")
             if filename:
                 makedirs("logs", exist_ok=True)
                 with open(f"logs/{filename}", "a", encoding="UTF-8") as f:
