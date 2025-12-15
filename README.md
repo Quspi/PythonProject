@@ -2,8 +2,13 @@
 
 ***Учебный проект в процессе разработки***
 
+![Python 3.12](https://img.shields.io/badge/python-3.12-blue)
+![Tests](https://img.shields.io/badge/tests-100%25_passing-success)
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
+
 Проект создается в рамках обучения Python и представляет собой систему для обработки банковских операций. 
 На текущем этапе реализуются базовые функции работы с финансовыми данными.
+
 
 ## Оглавление
 
@@ -38,17 +43,23 @@
 - Генерация номеров банковских карт
 - Извлечение описаний транзакций
 - Логирование данных в консоль или файл
-- Загрузка транзакций из JSON файлов
 - Конвертация сумм транзакций в рубли через внешний API (Поддержка валют: USD, EUR)
-- Настроено логирование операций и ошибок в файлы (для mask.py и utils.py)
+- Настроено логирование операций и ошибок в файлы
+- Загрузка транзакций из CSV, Excel и JSON файлов
+
+## Поддерживаемые форматы данных
+
+- **CSV**: с любым разделителем (запятая, точка с запятой, табуляция)
+- **Excel**: .xlsx, .xls (любой лист по имени или индексу)
+- **JSON**: стандартный формат транзакций
 
 ## Логирование
 
 - Логи записываются в папку logs/ (в репозитории)
-- У каждого модуля свой логер: utils, mask
-- Формат: дата | модуль | (имя функции) | уровень | сообщение
-  (Если в модуле более 1 функции сообщение лога также содержит имя функции)
-- Уровни: INFO (успехи), ERROR (ошибки)
+- У каждого модуля свой logger
+- Формат: дата | модуль | имя функции* | уровень | сообщение  
+  *Если в модуле более 1 функции сообщение лога также содержит имя функции
+- Уровни: INFO (успехи), ERROR (ошибки), DEBUG(отладка)
 - Пример: 2024.12.20 15:30:25: mask: ERROR: Номер карты должен быть > 0
 
 ## Установка
@@ -80,6 +91,7 @@ from src.generators import filter_by_currency, transaction_descriptions, card_nu
 from src.widget import mask_account_card, get_date
 from src.utils import load_transactions
 from src.external_api import convert_transaction_to_rub
+from src.data_loader import read_csv_transactions, read_excel_transactions
 
 # Маскировка карты
 get_mask_card_number(7000792289606361)
@@ -141,6 +153,14 @@ except ValueError as e:
     print(f"Ошибка данных: {e}")
 except ConnectionError as e:
     print(f"Ошибка сети: {e}")
+
+# Загрузка из CSV
+transactions_csv = read_csv_transactions("data/ops.csv", delimiter=";")
+# Возвращает list[dict], например: [{'id': 1, 'date': '2024-01-01', ...}, ...]
+
+# Загрузка из Excel  
+transactions_excel = read_excel_transactions("data/ops.xlsx", sheet_name="Транзакции")
+# Возвращает list[dict] [{'id': 2, 'date': '2025-01-01', ...}, ...]
 ```
 </details>
 
