@@ -3,12 +3,14 @@ name = "pythonproject"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "Your Name",email = "you@example.com"}
+    {name = "Oleg Tamanov",email = "olegtamanov@gmail.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "requests (>=2.32.5,<3.0.0)"
+    "requests (>=2.32.5,<3.0.0)",
+    "pandas (>=2.3.3,<3.0.0)",
+    "openpyxl (>=3.1.5,<4.0.0)"
 ]
 
 
@@ -23,6 +25,7 @@ lint = [
     "mypy (>=1.18.2,<2.0.0)",
     "isort (>=7.0.0,<8.0.0)",
     "types-requests (>=2.32.4.20250913,<3.0.0.0)",
+    "pandas-stubs (>=2.3.3.251201,<3.0.0.0)",
 ]
 dev = [
     "pytest (>=9.0.1,<10.0.0)",
