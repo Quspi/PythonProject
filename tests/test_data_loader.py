@@ -32,6 +32,25 @@ def test_invalid_path_read_csv_transactions(read_csv_mock):
 
 
 @patch("pandas.read_csv")
+def test_read_csv_with_missing_values(read_csv_mock, missing_and_invalid_dataframe):
+    read_csv_mock.return_value = missing_and_invalid_dataframe
+    expected_result = [
+        {"amount": 100, "currency": "USD", "id": 1},
+        {"amount": None, "currency": "EUR", "id": 2},
+        {"amount": "N/A", "currency": None, "id": 3},
+        {"amount": 400, "currency": 123, "id": 4},
+        {"amount": "", "currency": "GBP", "id": 5},
+    ]
+    result = read_csv_transactions("file_with_invalid_data.csv", delimiter=":")
+
+    assert result == expected_result
+    assert len(result) == 5
+    assert all(isinstance(item, dict) for item in result)
+    assert expected_result[2]["currency"] is None
+    read_csv_mock.assert_called_once_with("file_with_invalid_data.csv", delimiter=":")
+
+
+@patch("pandas.read_csv")
 def test_empty_data_read_csv_transactions(read_csv_mock):
     read_csv_mock.return_value = pd.DataFrame()
     result = read_csv_transactions("empty_file.csv", delimiter=".")
