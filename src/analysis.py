@@ -13,6 +13,8 @@ logger.addHandler(handler)
 
 
 def filter_by_description(operations: list[dict], search_string: str) -> list[dict]:
+    """Возвращает операции, содержащие search_string в описании."""
+
     if not operations:
         logger.warning(f"Получен пустой список операций {operations}")
         return []
