@@ -1,5 +1,6 @@
 import pytest
-from src.analysis import get_category_counts, filter_by_description
+
+from src.analysis import filter_by_description, get_category_counts
 
 
 @pytest.mark.parametrize(
@@ -19,3 +20,29 @@ from src.analysis import get_category_counts, filter_by_description
 def test_get_category_counts(operations, categories, expected):
     assert get_category_counts(operations, categories) == expected
 
+
+@pytest.mark.parametrize(
+    "operations, search_string, expected",
+    [
+        ([{"description": "Перевод организации"}], "Перевод", [{"description": "Перевод организации"}]),
+        (
+            [{"description": "Перевод организации"}, {"description": "Покупка товаров"}],
+            "Перевод",
+            [{"description": "Перевод организации"}],
+        ),
+        (
+            [{"description": "Перевод организации"}, {"description": "Перевод физ лицу"}],
+            "Перевод",
+            [{"description": "Перевод организации"}, {"description": "Перевод физ лицу"}],
+        ),
+        ([{"description": "Покупка товаров"}], "Перевод", []),
+        ([], "Перевод", []),
+        ([{"amount": 100}], "Перевод", []),
+        ([{"description": None}], "Перевод", []),
+        ([{"description": "перевод организации"}], "Перевод", [{"description": "перевод организации"}]),
+        ([{"description": "Оплата картой *1234"}], "*1234", [{"description": "Оплата картой *1234"}]),
+    ],
+)
+def test_filter_by_description(operations, search_string, expected):
+    result = filter_by_description(operations, search_string)
+    assert result == expected
