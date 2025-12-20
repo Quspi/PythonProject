@@ -99,6 +99,7 @@ def ask_sort_order() -> bool:
 
 
 def process_transactions(transactions: list[dict], status: str) -> list[dict]:
+    """Применяет цепочку фильтров к транзакциям на основе выбора пользователя. Возвращает обработанный список."""
     filtered_transactions = filter_by_state(transactions, status)
 
     if ask_question("Отсортировать операции по дате?"):
@@ -120,6 +121,7 @@ def process_transactions(transactions: list[dict], status: str) -> list[dict]:
 
 
 def print_transactions(transactions: list[dict]) -> None:
+    """Форматирует и выводит транзакции в консоль. Если список пуст, выводит соответствующее сообщение."""
     if not transactions:
         print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации.")
         logger.info("Не найдено транзакций подходящих под условия фильтрации.")
@@ -161,6 +163,8 @@ def print_transactions(transactions: list[dict]) -> None:
 
 
 def main() -> None:
+    """Точка входа в приложение. Управляет основным циклом программы:
+    загрузкой данных, фильтрацией, выводом результатов."""
     print("Добро пожаловать в программу работы с банковскими транзакциями.")
 
     while True:
