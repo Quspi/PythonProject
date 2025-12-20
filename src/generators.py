@@ -14,7 +14,10 @@ logger.addHandler(handler)
 def filter_by_currency(transactions: list[dict], currency: str) -> Iterator[dict]:
     """Функция, которая принимает на вход данные о транзакциях и возвращает итератор транзакций с указанной валютой."""
     logger.info(f"Вызвана с: transactions={len(transactions)}, currency={currency}")
-    return (item for item in transactions if item["operationAmount"]["currency"]["code"] == currency)
+    if transactions and "operationAmount" in transactions[0]:
+        return (item for item in transactions if item["operationAmount"]["currency"]["code"] == currency)
+    else:
+        return (item for item in transactions if item["currency_code"] == currency)
 
 
 def transaction_descriptions(transactions: list[dict]) -> Iterator[Optional[str]]:
