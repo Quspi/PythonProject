@@ -13,6 +13,13 @@ def test_filter_by_currency(sample_transactions, currency):
     assert list(result) == expected
 
 
+@pytest.mark.parametrize("currency", [("RUB"), ("USD"), ("EUR")])
+def test_filter_by_currency_csv_xlsx(sample_transactions_csv_xlsx, currency):
+    result = filter_by_currency(sample_transactions_csv_xlsx, currency)
+    expected = [item for item in sample_transactions_csv_xlsx if item["currency_code"] == currency]
+    assert list(result) == expected
+
+
 def test_empty_filter_by_currency(empty_transactions):
     result = filter_by_currency(empty_transactions, "USD")
     expected = []

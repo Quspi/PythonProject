@@ -56,6 +56,16 @@ def sample_transactions():
 
 
 @pytest.fixture
+def sample_transactions_csv_xlsx():
+    return [
+        {"id": 1, "amount": "100.0", "currency_code": "USD", "currency_name": "US Dollar"},
+        {"id": 2, "amount": "200.0", "currency_code": "EUR", "currency_name": "Euro"},
+        {"id": 3, "amount": "300.0", "currency_code": "USD", "currency_name": "US Dollar"},
+        {"id": 4, "amount": "400.0", "currency_code": "RUB", "currency_name": "Russian Ruble"},
+    ]
+
+
+@pytest.fixture
 def empty_transactions():
     return []
 
